@@ -11,10 +11,10 @@ services:
         constraints:
           - node.role==manager 
     environment:
-      MYSQL_ROOT_PASSWORD: Alguma senha
-      MYSQL_DATABASE: Mesma DB do Wordpress
-      MYSQL_USER: Mesmo user do Wordpress
-      MYSQL_PASSWORD: Mesma Senha do Wordpress
+      MYSQL_ROOT_PASSWORD: ${mysql_root}
+      MYSQL_DATABASE: ${mysql_database}
+      MYSQL_USER: ${mysql_user}
+      MYSQL_PASSWORD: ${mysql_passwd}
     networks:
       - web  
   
@@ -24,7 +24,7 @@ services:
     volumes:
       - /home/akira/WWW:/var/www/html
     deploy: 
-      replicas: 4
+      replicas: ${nodes_number}
       placement:
         constraints:
           - node.role==worker  
@@ -40,13 +40,13 @@ services:
         - "traefik.http.services.wordpress.loadbalancer.server.port=80"
         - "traefik.http.services.wordpress.loadBalancer.sticky.cookie=true"
         - "traefik.http.services.wordpress.loadBalancer.sticky.cookie.name=wordpress"
-    environment:
-      WORDPRESS_DB_HOST: Algum Host
-      WORDPRESS_DB_NAME: Perdi
-      WORDPRESS_DB_USER: Perdi
-      WORDPRESS_DB_PASSWORD: Never Gonna Give u up
+    environment: 
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: ${mysql_database}
+      WORDPRESS_DB_USER: ${mysql_user}
+      WORDPRESS_DB_PASSWORD:  ${mysql_passwd}
       WORDPRESS_TABLE_PREFIX: wp_
-      WORDPRESS_DOMAIN_CURRENT_SITE: Dominio dessa caralha
+      WORDPRESS_DOMAIN_CURRENT_SITE: ${word_domain}
     networks:
       - web
 

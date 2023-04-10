@@ -19,7 +19,7 @@ services:
       - --entrypoints.http.address=:80
       - --entrypoints.https.address=:443
       - --certificatesresolvers.mytlschallenge.acme.tlschallenge=true
-      - --certificatesresolvers.mytlschallenge.acme.email=Algum email
+      - --certificatesresolvers.mytlschallenge.acme.email=${traefik_email} 
       - --certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json
     
     volumes:

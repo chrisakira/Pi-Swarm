@@ -18,8 +18,8 @@ services:
     networks:
       - web  
     environment:
-      - GF_SECURITY_ADMIN_USER=Algum usuario
-      - GF_SECURITY_ADMIN_PASSWORD=Alguma Senha  
+      - GF_SECURITY_ADMIN_USER=${grafana_user}
+      - GF_SECURITY_ADMIN_PASSWORD=${grafana_passwd} 
       - GF_SECURITY_ADMIN_COOKIE_SECURE=false  
       - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=1ms 
       - GF_SERVER_PROTOCOL=http
@@ -39,7 +39,7 @@ services:
         - "traefik.http.services.grafana.loadBalancer.sticky.cookie=true"
         - "traefik.http.services.grafana.loadBalancer.sticky.cookie.name=grafana"
       mode: replicated 
-      replicas: 2
+      replicas: ${nodes_number}
       placement:
         constraints:
           - node.role==worker
