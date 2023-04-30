@@ -1,6 +1,6 @@
 version: '3.8'
 
-services: 
+services:   
   wordpress:
     image: wordpress:latest # can you place this if you want to use you own custom wp image  
     

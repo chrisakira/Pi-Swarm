@@ -1,0 +1,16 @@
+Para realizar a configuração do docker compose utilizado no projeto. 
+1 - Fixar o IP dos nodes (Raspberrys ou VM a serem utilizados) a serem utilizados, dando preferencia a setar os IPs 
+diretamente no seu roteador.
+
+2 - Determinar qual será o node mestre da docker swarm e anotar o IP dele
+
+3 - Acessar via ssh Nodes mestre e executar o seguinte comando  
+    docker swarm init --advertise-addr <IP do mestre>
+
+4 - Anote o comando de resposta e insira nos demais nodes 
+    por exemplo docker swarm join --token <código> <IP Gerado>:2377
+
+5 - Crie a network interna a ser usada pelo Docker swarm 
+    docker network create --driver overlay web
+
+6 - Opcional: Para auxiliar na debugação, adicione o seu docker swarm no aos enviroments do seu Portainer    

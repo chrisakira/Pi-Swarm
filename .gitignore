@@ -1,2 +1,4 @@
 Creds/*
 traefik/letsencrypt/*
+wordpress/wordpress/*
+config.env

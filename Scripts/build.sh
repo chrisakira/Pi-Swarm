@@ -1,21 +1,29 @@
+#!/bin/bash
 clear
+source /root/Pi-Swarm/config.env
 
-export traefik_email="$1"
-
-export grafana_user="$2"
-export grafana_passwd="$3"
- 
-export mysql_root="$4"
-export mysql_database="$5"
-export mysql_user="$6"
-export mysql_passwd="$7"
-
-export word_domain="$8"
-
-export nodes_number="$9"
-
-sudo docker stack deploy -c /home/<Meu Usuario>/Pi-Swarm/traefik/docker-compose.yml traefik  
-sudo docker stack deploy -c /home/<Meu Usuario>/Pi-Swarm/grafana/docker-compose.yml traefik    
-sudo docker stack deploy -c /home/<Meu Usuario>/Pi-Swarm/wordpress/docker-compose.yml  traefik
-sudo docker stack deploy -c /home/<Meu Usuario>/Pi-Swarm/Who/docker-compose.yml  traefik
- 
+if [ $1 = "Local" ]; then
+    echo "Executando localmente"
+    sudo docker stack deploy -c ./traefik/docker-compose-local.yml traefik  
+    sudo docker stack deploy -c ./grafana/docker-compose-local.yml traefik    
+    sudo docker stack deploy -c ./wordpress/docker-compose-local.yml  traefik
+    sudo docker stack deploy -c ./Who/docker-compose-local.yml  traefik
+    sudo docker-compose -f /home/vm2/Home-Lab/mysql/docker-compose.yml  up --build -d
+    sudo docker-compose -f /home/vm2/Home-Lab/AD_Guard/docker-compose.yml up -d 
+    sudo docker-compose -f /home/vm2/Home-Lab/influx/docker-compose.yml  up --build -d
+    sudo docker-compose -f /home/vm2/Home-Lab/portainer/docker-compose.yml  up --build -d
+    sudo docker-compose -f /home/vm2/Home-Lab/node-red/docker-compose.yml  up --build -d
+    sudo docker-compose -f /home/vm2/Home-Lab/zomboid-dedicated-server/docker-compose.yaml up -d
+else
+    echo "Executando em cluster"
+    sudo docker stack deploy -c ./traefik/docker-compose.yml traefik  
+    sudo docker stack deploy -c ./grafana/docker-compose.yml traefik    
+    sudo docker stack deploy -c ./wordpress/docker-compose.yml  traefik
+    sudo docker stack deploy -c ./Who/docker-compose.yml  traefik
+    sudo docker-compose -f /home/vm2/Home-Lab/mysql/docker-compose.yml  up --build -d
+    sudo docker-compose -f /home/vm2/Home-Lab/AD_Guard/docker-compose.yml up -d 
+    sudo docker-compose -f /home/vm2/Home-Lab/influx/docker-compose.yml  up --build -d
+    sudo docker-compose -f /home/vm2/Home-Lab/portainer/docker-compose.yml  up --build -d
+    sudo docker-compose -f /home/vm2/Home-Lab/node-red/docker-compose.yml  up --build -d
+    sudo docker-compose -f /home/vm2/Home-Lab/zomboid-dedicated-server/docker-compose.yaml up -d
+fi

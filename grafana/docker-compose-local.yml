@@ -38,7 +38,7 @@ services:
         - "traefik.http.services.grafana.loadBalancer.sticky.cookie=true"
         - "traefik.http.services.grafana.loadBalancer.sticky.cookie.name=grafana"
       mode: replicated 
-      replicas: 4
+      replicas: 1
   
 networks:
   web: 
