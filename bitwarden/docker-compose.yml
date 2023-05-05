@@ -1,0 +1,15 @@
+# docker-compose.yml
+version: '3'
+
+services:
+  bitwarden:
+    image: vaultwarden/server:latest
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - ./bw-data:/data
+    environment:
+      DATABASE_URL: mysql://[[user]:[password]@]host[:port][/database]
+      WEBSOCKET_ENABLED: 'true' # Required to use websockets
+      SIGNUPS_ALLOWED: 'true'   # set to false to disable signups

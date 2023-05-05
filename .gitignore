@@ -1,4 +1,5 @@
 Creds/*
 traefik/letsencrypt/*
 wordpress/wordpress/*
+bitwarden/bw-data/*
 config.env
