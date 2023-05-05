@@ -19,12 +19,12 @@ services:
       - --entrypoints.http.address=:80
       - --entrypoints.https.address=:443
       - --certificatesresolvers.mytlschallenge.acme.tlschallenge=true
-      - --certificatesresolvers.mytlschallenge.acme.email=${traefik_email} 
+      - --certificatesresolvers.mytlschallenge.acme.email=christopher.maekawa@gmail.com
       - --certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json
     
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock  
-      - /home/akira/Pi-Swarm/traefik/dynamic.yaml:/dynamic.yaml  
+      - /var/run/docker.sock:/var/run/docker.sock 
+      - ./dynamic.yaml:/dynamic.yaml  
       - ./letsencrypt:/letsencrypt
     networks:
       - web  

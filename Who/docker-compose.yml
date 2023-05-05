@@ -8,10 +8,10 @@ services:
       
     deploy:
       mode: replicated 
-      replicas: 1
+      replicas: 5
       placement:
         constraints:
-          - node.role==worker
+          - node.role==manager
       labels:  
         - "traefik.enable=true"
         - 'traefik.docker.network=web'

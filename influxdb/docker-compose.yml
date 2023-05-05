@@ -9,9 +9,15 @@ services:
     volumes:
       - influxdb-storage:/var/lib/influxdb
     env_file: ../config.env
+    deploy: 
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==manager
     
 volumes:
   influxdb-storage:  
+  
 networks:
   web: 
     external: true 

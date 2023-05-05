@@ -1,0 +1,30 @@
+
+version: '3.3'
+services:
+    adguardhome:
+      image: adguard/adguardhome 
+      ports:
+       - 53:53/tcp
+       - 53:53/udp
+       - 784:784/udp
+       - 853:853/tcp 
+       - 3000:3000 
+       - 83:80 
+      volumes:
+        - work_2:/opt/adguardhome/work
+        - conf_2:/opt/adguardhome/conf  
+      networks:
+        - web
+      deploy: 
+        replicas: 1
+        placement:
+          constraints:
+            - node.role==manager     
+        
+networks:
+  web: 
+    external: true 
+
+volumes: 
+  work_2: 
+  conf_2: 

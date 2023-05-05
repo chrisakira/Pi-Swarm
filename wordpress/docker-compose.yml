@@ -5,9 +5,12 @@ services:
     image: wordpress:latest # can you place this if you want to use you own custom wp image  
     
     volumes:
-      - ./wordpress:/var/www/html
+      - /home/akira/WWW:/var/www/html
     deploy: 
-      replicas: 1 
+      replicas: 5
+      placement:
+        constraints:
+          - node.role==worker
       labels:
         - 'traefik.enable=true'
         - 'traefik.docker.network=web'
