@@ -4,12 +4,27 @@ version: '3'
 services:
   bitwarden:
     image: vaultwarden/server:latest
-    restart: always
-    ports:
-      - 80:80
+    networks:
+      - web  
     volumes:
       - ./bw-data:/data
-    environment:
-      DATABASE_URL: mysql://[[user]:[password]@]host[:port][/database]
-      WEBSOCKET_ENABLED: 'true' # Required to use websockets
-      SIGNUPS_ALLOWED: 'true'   # set to false to disable signups
+    env_file: ../config.env  
+    deploy: 
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==manager
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.docker.network=web'
+        - "traefik.http.routers.vault.rule=PathPrefix(`/vault`)"  
+        - "traefik.http.routers.vault.middlewares=vault-mw"
+        - "traefik.http.middlewares.vault-mw.stripprefix.prefixes=/vault"
+        - "traefik.http.routers.vault.service=vault" 
+        - "traefik.http.routers.vault.entrypoints=https"
+        - "traefik.http.routers.vault.tls.certresolver=myresolver"
+        - "traefik.http.services.vault.loadbalancer.server.port=80" 
+          
+networks:
+  web: 
+    external: true 

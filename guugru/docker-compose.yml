@@ -1,0 +1,39 @@
+version: '3.7'
+
+services: 
+  guugru: 
+    image: searxng/searxng:latest
+    networks:
+      - web  
+    volumes:
+      - guugru:/etc/searxng:rw
+    environment:
+      - SEARXNG_BASE_URL=https://www.akira-maker.com/guugru
+    cap_drop:
+      - ALL
+    cap_add:
+      - CHOWN
+      - SETGID
+      - SETUID 
+    deploy: 
+      replicas: 5
+      placement:
+        constraints:
+          - node.role==worker
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.docker.network=web'
+        - "traefik.http.routers.guugru.rule=PathPrefix(`/guugru`)"  
+        - "traefik.http.routers.guugru.middlewares=guugru-mw"
+        - "traefik.http.middlewares.guugru-mw.stripprefix.prefixes=/guugru"
+        - "traefik.http.routers.guugru.service=guugru" 
+        - "traefik.http.routers.guugru.entrypoints=https"
+        - "traefik.http.routers.guugru.tls.certresolver=myresolver"
+        - "traefik.http.services.guugru.loadbalancer.server.port=8080" 
+
+networks:
+  web: 
+    external: true 
+ 
+volumes:
+  guugru: 
