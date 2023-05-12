@@ -4,17 +4,7 @@ services:
   grafana:
     image: grafana/grafana 
     volumes:
-      - grafana-storage:/var/lib/grafana
-    ports:
-      - target: 3306
-        published: 3307
-        protocol: tcp
-        mode: host
-    ports:
-      - target: 8086
-        published: 8087
-        protocol: tcp
-        mode: host
+      - grafana-storage:/var/lib/grafana 
     networks:
       - web  
     env_file: ../config.env
@@ -25,6 +15,10 @@ services:
       - GF_SERVER_ROOT_URL=http://127.0.0.1:3000/grafana 
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
     deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: "512m"
       labels: 
         - 'traefik.enable=true'
         - 'traefik.docker.network=web'

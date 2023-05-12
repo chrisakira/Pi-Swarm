@@ -3,3 +3,4 @@ traefik/letsencrypt/*
 wordpress/wordpress/*
 bitwarden/bw-data/*
 config.env
+config2.env

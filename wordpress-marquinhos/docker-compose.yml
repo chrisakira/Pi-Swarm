@@ -1,0 +1,41 @@
+version: '3.8'
+
+services: 
+  wordpress-marquinhos:
+    image: wordpress:latest # can you place this if you want to use you own custom wp image  
+    
+    working_dir: /var/www/html/marquinhos
+    volumes:
+      - /home/akira/MWWW:/var/www/html/marquinhos
+    user: root
+    deploy: 
+      resources:  
+        limits:
+          cpus: "0.5"
+          memory: "2g"
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==manager
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.docker.network=web'
+        - "traefik.http.routers.marquinhos.rule=PathPrefix(`/marquinhos`)"
+        - "traefik.http.routers.marquinhos.entrypoints=https" 
+        # - "traefik.http.routers.marquinhos.middlewares=marquinhos-mw"
+        # - "traefik.http.middlewares.marquinhos-mw.stripprefix.prefixes=PathPrefix(`marquinhos`)"
+        - "traefik.http.routers.marquinhos.service=marquinhos" 
+        - "traefik.http.routers.marquinhos.tls.certresolver=myresolver"
+        - "traefik.http.services.marquinhos.loadbalancer.server.port=80"
+        - "traefik.http.services.marquinhos.loadBalancer.sticky.cookie=true"
+        - "traefik.http.services.marquinhos.loadBalancer.sticky.cookie.name=marquinhos"
+    env_file: ../config2.env
+    networks:
+      - web
+
+networks:
+  web: 
+    external: true 
+volumes:
+  db_data:  
+  wordpress_data:  

@@ -7,11 +7,15 @@ services:
       web: 
       
     deploy:
-      mode: replicated 
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: "256m"
       replicas: 5
+      mode: replicated 
       placement:
         constraints:
-          - node.role==manager
+          - node.role==worker
       labels:  
         - "traefik.enable=true"
         - 'traefik.docker.network=web'
