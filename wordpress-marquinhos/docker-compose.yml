@@ -13,10 +13,10 @@ services:
         limits:
           cpus: "0.5"
           memory: "2g"
-      replicas: 1
+      replicas: 4
       placement:
-        constraints:
-          - node.role==manager
+        constraints: 
+          - node.labels.grafana == true
       labels:
         - 'traefik.enable=true'
         - 'traefik.docker.network=web'

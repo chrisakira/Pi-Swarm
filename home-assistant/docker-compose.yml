@@ -1,0 +1,15 @@
+version: '3.7'
+
+services:
+  homeassistant: 
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /PATH_TO_YOUR_CONFIG:/config
+      - /etc/localtime:/etc/localtime:ro  
+    ports:
+      - "1880:1880"
+    deploy:  
+      replicas: 1 
+      placement:
+        constraints:
+          - node.labels.tipo == wickyflix

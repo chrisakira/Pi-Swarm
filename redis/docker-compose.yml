@@ -16,6 +16,11 @@ services:
       - SETGID
       - SETUID
       - DAC_OVERRIDE
+    deploy: 
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==manager
  
 networks:
   web: 

@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+  iot:
+    image: chrisakira/akirapi:0.0.10
+    networks:
+      - web  
+    environment:      
+      - APP_ENV=development
+      - APP_PORT=5000
+      - TEST_ENV=0
+      - DEBUG=true
+      - LOG_LEVEL=debug
+      - API_SERVER=http://localhost:5000
+      - API_SERVER_DESCRIPTION=Development server
+      - API_ROOT = ""
+      - LOCAL_API_SERVER=http://localhost:5000
+      - LOCAL_API_SERVER_DESCRIPTION=Development server
+      - REDIS_HOST=redis
+      - MARIA_DB_HOST=mariadb
+      - POSTGRE_DB_HOST=postgre
+      - INFLUX_DB_HOST=influxdb
+
+      - DB_USER=iot_metrics_user
+      - DB_PASSWORD=BgdXHgrf8ZDEUP
+      - DB=iot_metrics_db
+
+      - REDIS_PORT=6379
+      - MARIA_DB_PORT=3306
+      - POSTGRE_DB_PORT=5432
+      - INFLUX_DB_PORT=8086
+
+      - auth_token=F4ujtjaC7vgFE4oowrgc8Pd6WbT,jEych6NhjsXNyKyPPzj9LLTEn3i,AyRp2s2uSiLZ3bL3QdDAJkrd8qq,JwUT9WgorXf82jvjdtYdj5Se2PS,DiUA38wQykug6g7YYAscn2gnBhF
+      - NUMEXPR_MAX_THREADS=12
+    deploy:
+      labels: 
+        - 'traefik.enable=true'
+        - 'traefik.docker.network=web'
+        - "traefik.http.routers.iot.rule=PathPrefix(`/iot`)"
+        - "traefik.http.routers.iot.entryPoints=https"
+        - "traefik.http.routers.iot.middlewares=iot-mw"
+        - "traefik.http.middlewares.iot-mw.stripprefix.prefixes=/iot"
+        - "traefik.http.routers.iot.tls.certresolver=myresolver"
+        - "traefik.http.routers.iot.service=iot"
+        - "traefik.http.services.iot.loadbalancer.server.port=5000"
+      mode: replicated 
+      replicas: 1
+      placement:
+        constraints:
+          # - node.labels.Rasp == True
+          - node.role==manager
+
+  
+networks:
+  web: 
+    external: true
+    

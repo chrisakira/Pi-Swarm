@@ -1,0 +1,39 @@
+version: '3.5'
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    user: 1000:1000
+    ports:
+      - 8096:8096
+    networks:
+      - web
+    volumes:
+      - jelly-config:/config
+      - jelly-cache:/cache
+      - /home/akira/Jellyfin/Media:/media
+    environment:
+      - JELLYFIN_PublishedServerUrl=http://www.akira-maker.com/wickyflix/
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    deploy:  
+      replicas: 1 
+      placement:
+        constraints:
+          - node.role==manager 
+      labels:
+        - 'traefik.enable=true'
+        - 'traefik.docker.network=web'
+        - "traefik.http.routers.jellyfin.rule=PathPrefix(`/wickyflix`)" 
+        - "traefik.http.routers.jellyfin.service=jellyfin" 
+        - "traefik.http.routers.jellyfin.entrypoints=https"
+        - "traefik.http.routers.jellyfin.tls.certresolver=myresolver"
+        - "traefik.http.services.jellyfin.loadbalancer.server.port=8096"
+        - "traefik.http.services.jellyfin.loadBalancer.sticky.cookie=true"
+        - "traefik.http.services.jellyfin.loadBalancer.sticky.cookie.name=jellyfin"
+    
+networks:
+  web: 
+    external: true 
+volumes:
+  jelly-cache: 
+  jelly-config: 

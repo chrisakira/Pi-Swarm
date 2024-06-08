@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  mariadb:
+    image: mariadb:latest  
+    command: --max_allowed_packet=1073741824
+    environment:
+      MYSQL_ROOT_PASSWORD: AKIRAakira@1  
+    ports:
+      - '3307:3306'
+    networks:
+      - web  
+    volumes:
+      - /home/akira/Pi-Swarm/mariaDB:/etc/mysql
+      - mariadb-data:/var/lib/mysql
+    deploy: 
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==manager
+      
+networks:
+  web: 
+    external: true 
+
+volumes:
+  mariadb-data:
