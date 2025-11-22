@@ -6,19 +6,16 @@ services:
     volumes:
       - grafana-storage:/var/lib/grafana 
     networks:
-      - web  
-    env_file: ../config.env
+      - web   
     environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=AKIRAakira@1
       - GF_SECURITY_ADMIN_COOKIE_SECURE=false  
       - GF_DASHBOARDS_MIN_REFRESH_INTERVAL=1ms 
       - GF_SERVER_PROTOCOL=http
-      - GF_SERVER_ROOT_URL=https://www.akira-maker.com/grafana 
+      - GF_SERVER_ROOT_URL=https://akira.ngrok.dev/grafana 
       - GF_SERVER_SERVE_FROM_SUB_PATH=true
     deploy:
-      resources:
-        limits:
-          cpus: "0.5"
-          memory: "512m"
       labels: 
         - 'traefik.enable=true'
         - 'traefik.docker.network=web'

@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: postgres:16-bookworm
+    networks:
+      - web
+      - internal
+    environment:
+      POSTGRES_USER: akira
+      POSTGRES_PASSWORD: AKIRAakira@1
+      POSTGRES_DB: git_lab_db
+    volumes:
+      - postgres-new-data:/var/lib/postgresql/data
+    deploy:
+      placement:
+        constraints:
+          - node.role==manager
+
+
+networks:
+  web:
+    external: true
+  internal:
+    driver: overlay
+
+volumes:
+  postgres-new-data:

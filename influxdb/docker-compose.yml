@@ -8,7 +8,10 @@ services:
       - '8086:8086'
     volumes:
       - influxdb-storage:/var/lib/influxdb
-    env_file: ../config.env
+    environment:
+      INFLUXDB_ADMIN_USER: akira
+      INFLUXDB_ADMIN_PASSWORD: FEFEfefe
+      INFLUXDB_DB: db_tcc
     deploy: 
       replicas: 1
       placement:

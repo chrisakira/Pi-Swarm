@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  gitlab-runner:
+    image: gitlab/gitlab-runner:latest
+    depends_on:
+      - gitlab
+    networks:
+      - internal
+      - web
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./config:/etc/gitlab-runner
+    environment:
+      # Runner auto-registration
+      CI_SERVER_URL: "https://akira.ngrok.dev/"
+      REGISTRATION_TOKEN: "glrt-EPcsMuacD_NthuCDV582WW86MQp0OjEKdToxCw.01.120r155gy"
+      RUNNER_NAME: "local-docker-runner"
+      RUNNER_EXECUTOR: "docker"
+      DOCKER_IMAGE: "docker:stable"
+    deploy:
+      replicas: 1
+
+networks:
+  internal:
+    driver: overlay
+  web:
+    external: true
+
+volumes:
+  gitlab-runner-config:

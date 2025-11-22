@@ -1,0 +1,16 @@
+concurrent = 8
+check_interval = 0
+
+[[runners]]
+  name = "local-docker-runner"
+  url = "https://akira.ngrok.dev/"
+  token = "glrt-EPcsMuacD_NthuCDV582WW86MQp0OjEKdToxCw.01.120r155gy"
+  executor = "docker"
+
+  [runners.docker]
+    tls_verify = false
+    image = "docker:stable"
+    privileged = true
+    disable_cache = false
+    volumes = ["/cache", "/var/run/docker.sock:/var/run/docker.sock"]
+glrt-T3JKQcvJPc51y4p4IH6Vt286MQp0OjEKdToxCw.01.120q2moak

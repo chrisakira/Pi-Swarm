@@ -1,0 +1,79 @@
+version: '3.7'
+
+services:
+
+  gitlab:
+    image: gitlab/gitlab-ce:latest
+    hostname: gitlab
+    networks:
+      - web
+      - internal
+    volumes:
+      - gitlab-config:/etc/gitlab
+      - gitlab-logs:/var/log/gitlab
+      - gitlab-data:/var/opt/gitlab
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://akira.ngrok.dev/'
+
+        #############################
+        # External PostgreSQL
+        #############################
+        postgresql['enable'] = false
+        gitlab_rails['db_adapter'] = 'postgresql'
+        gitlab_rails['db_encoding'] = 'unicode'
+        gitlab_rails['db_database'] = 'git_lab_db'
+        gitlab_rails['db_username'] = 'akira'
+        gitlab_rails['db_password'] = 'AKIRAakira@1'
+        gitlab_rails['db_host'] = 'postgres'
+        gitlab_rails['db_port'] = 5432
+
+        #############################
+        # External Redis
+        #############################
+        redis['enable'] = false
+        gitlab_rails['redis_host'] = 'redis'
+        gitlab_rails['redis_port'] = 6379
+
+        #############################
+        # GitLab internal settings
+        #############################
+
+        # Disable SSH clone (optional)
+        # gitlab_rails['gitlab_shell_enabled'] = false
+
+        gitlab_rails['gitlab_shell_ssh_port'] = 2222
+
+        nginx['listen_port'] = 80
+        nginx['listen_https'] = false
+
+    ports:
+      - "8084:80"
+      - "2222:22"
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role==manager
+      labels:
+        - "traefik.enable=true"
+        - "traefik.docker.network=web"
+
+        - "traefik.http.routers.gitlab.rule=PathPrefix(`/`)"
+        - "traefik.http.routers.gitlab.entryPoints=https"
+        - "traefik.http.routers.gitlab.tls.certresolver=myresolver"
+
+        - "traefik.http.services.gitlab.loadbalancer.server.port=80"
+        - "traefik.http.services.gitlab.loadBalancer.sticky.cookie=true"
+        - "traefik.http.services.gitlab.loadBalancer.sticky.cookie.name=gitlab"
+
+networks:
+  web:
+    external: true
+  internal:
+    driver: overlay
+
+volumes:
+  gitlab-config:
+  gitlab-logs:
+  gitlab-data:

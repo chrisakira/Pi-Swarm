@@ -6,9 +6,14 @@ services:
     image: vaultwarden/server:latest
     networks:
       - web  
+    ports:
+      - "8082:80"   # Access Vaultwarden at http://localhost:8080
     volumes:
-      - ./bw-data:/data
-    env_file: ../config.env  
+      - vaultwarden_data:/data
+    environment:
+      # DOMAIN: "http://localhost:8080"
+      ADMIN_TOKEN: "AKIRAakira@1"
+      WEBSOCKET_ENABLED: "true"
     deploy: 
       replicas: 1
       placement:
@@ -28,3 +33,6 @@ services:
 networks:
   web: 
     external: true 
+
+volumes:
+  vaultwarden_data:
