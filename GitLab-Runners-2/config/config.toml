@@ -4,7 +4,7 @@ check_interval = 0
 [[runners]]
   name = "local-docker-runner"
   url = "https://akira.ngrok.dev/"
-  token = "glrt-T3JKQcvJPc51y4p4IH6Vt286MQp0OjEKdToxCw.01.120q2moak"
+  token = "glrt-AKEauTWmDugbjXguJ_Pyz286MQp0OjEKdTozCw.01.121uq9qjp"
   executor = "docker"
 
   [runners.docker]

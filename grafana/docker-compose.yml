@@ -18,7 +18,7 @@ services:
     deploy:
       labels: 
         - 'traefik.enable=true'
-        - 'traefik.docker.network=web'
+        - 'traefik.swarm.network=web'
         - "traefik.http.routers.grafana.rule=PathPrefix(`/grafana`)"
         - "traefik.http.routers.grafana.entryPoints=https"
         # - "traefik.http.routers.grafana.middlewares=grafana-mw"

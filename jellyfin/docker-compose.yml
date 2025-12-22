@@ -22,7 +22,7 @@ services:
           - node.role==manager 
       labels:
         - 'traefik.enable=true'
-        - 'traefik.docker.network=web'
+        - 'traefik.swarm.network=web'
         - "traefik.http.routers.jellyfin.rule=PathPrefix(`/wickyflix`)" 
         - "traefik.http.routers.jellyfin.service=jellyfin" 
         - "traefik.http.routers.jellyfin.entrypoints=https"

@@ -14,7 +14,7 @@ services:
       mode: global 
       labels:  
         - "traefik.enable=true"
-        - 'traefik.docker.network=web'
+        - 'traefik.swarm.network=web'
         - "traefik.http.routers.who.rule=PathPrefix(`/who`)"
         - "traefik.http.services.who.loadbalancer.server.port=80"
         - "traefik.http.services.who.loadBalancer.sticky.cookie=true"

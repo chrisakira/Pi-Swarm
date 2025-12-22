@@ -57,7 +57,7 @@ services:
           - node.role==manager
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=web"
+        - "traefik.swarm.network=web"
 
         - "traefik.http.routers.gitlab.rule=PathPrefix(`/`)"
         - "traefik.http.routers.gitlab.entryPoints=https"

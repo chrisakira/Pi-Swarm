@@ -19,7 +19,7 @@ services:
           - node.labels.grafana == true
       labels:
         - 'traefik.enable=true'
-        - 'traefik.docker.network=web'
+        - 'traefik.swarm.network=web'
         - "traefik.http.routers.marquinhos.rule=PathPrefix(`/marquinhos`)"
         - "traefik.http.routers.marquinhos.entrypoints=https" 
         # - "traefik.http.routers.marquinhos.middlewares=marquinhos-mw"

@@ -14,7 +14,7 @@ services:
     environment:
       # Runner auto-registration
       CI_SERVER_URL: "https://akira.ngrok.dev/"
-      REGISTRATION_TOKEN: "glrt-T3JKQcvJPc51y4p4IH6Vt286MQp0OjEKdToxCw.01.120q2moak"
+      REGISTRATION_TOKEN: "glrt-AKEauTWmDugbjXguJ_Pyz286MQp0OjEKdTozCw.01.121uq9qjp"
       RUNNER_NAME: "local-docker-runner"
       RUNNER_EXECUTOR: "docker"
       DOCKER_IMAGE: "docker:stable"

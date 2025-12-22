@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   traefik:
-    image: traefik:v2.11.3 
+    image: traefik:v3.6.5 
     ports:
       - "80:80" 
       - "8083:8080" 
@@ -10,17 +10,16 @@ services:
     command:
       - --api.insecure=true 
       - --api.dashboard=true   
-      - --providers.docker=true  
-      - --providers.docker.swarmMode=true
-      - --providers.docker.swarmModeRefreshSeconds=30
-      - --providers.docker.exposedbydefault=true  
+      - --providers.swarm=true
+      - --providers.swarm.exposedbydefault=false  
+      - --providers.swarm.network=web
+      - --providers.swarm.refreshSeconds=30
       - --providers.file.filename=/dynamic.yaml 
-      - --providers.docker.network=web  
       - --entrypoints.http.address=:80
       - --entrypoints.https.address=:443
-      - --certificatesresolvers.mytlschallenge.acme.tlschallenge=true
-      - --certificatesresolvers.mytlschallenge.acme.email=christopher.maekawa@gmail.com
-      - --certificatesresolvers.mytlschallenge.acme.storage=/letsencrypt/acme.json
+      - --certificatesresolvers.myresolver.acme.tlschallenge=true
+      - --certificatesresolvers.myresolver.acme.email=christopher.maekawa@gmail.com
+      - --certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json
     
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock 

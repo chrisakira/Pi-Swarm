@@ -26,7 +26,7 @@ services:
           - node.labels.tipo == wickyflix
       labels:
         - 'traefik.enable=true'
-        - 'traefik.docker.network=web'
+        - 'traefik.swarm.network=web'
         - "traefik.http.routers.guugru.rule=PathPrefix(`/guugru`)"  
         - "traefik.http.routers.guugru.middlewares=guugru-mw"
         - "traefik.http.middlewares.guugru-mw.stripprefix.prefixes=/guugru"

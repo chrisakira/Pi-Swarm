@@ -17,7 +17,7 @@ services:
           - node.role==manager
       labels:
         - 'traefik.enable=true'
-        - 'traefik.docker.network=web'
+        - 'traefik.swarm.network=web'
         - "traefik.http.routers.wordpress.rule=PathPrefix(`/`)" 
         - "traefik.http.routers.wordpress.middlewares=wordpress-mw"
         - "traefik.http.middlewares.wordpress-mw.stripprefix.prefixes=/wordpress"

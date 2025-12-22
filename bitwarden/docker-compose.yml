@@ -21,7 +21,7 @@ services:
           - node.role==manager
       labels:
         - 'traefik.enable=true'
-        - 'traefik.docker.network=web'
+        - 'traefik.swarm.network=web'
         - "traefik.http.routers.vault.rule=PathPrefix(`/vault`)"  
         - "traefik.http.routers.vault.middlewares=vault-mw"
         - "traefik.http.middlewares.vault-mw.stripprefix.prefixes=/vault"

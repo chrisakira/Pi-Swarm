@@ -37,7 +37,7 @@ services:
     deploy:
       labels: 
         - 'traefik.enable=true'
-        - 'traefik.docker.network=web'
+        - 'traefik.swarm.network=web'
         - "traefik.http.routers.iot.rule=PathPrefix(`/iot`)"
         - "traefik.http.routers.iot.entryPoints=https"
         - "traefik.http.routers.iot.middlewares=iot-mw"

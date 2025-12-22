@@ -34,7 +34,7 @@ services:
     deploy: 
       labels:
         - "traefik.enable=true"
-        - "traefik.docker.network=web"
+        - "traefik.swarm.network=web"
         - "traefik.http.routers.adminer.rule=PathPrefix(`/adminer`)"
         - "traefik.http.routers.adminer.entryPoints=https"
         - "traefik.http.routers.adminer.middlewares=adminer-mw"

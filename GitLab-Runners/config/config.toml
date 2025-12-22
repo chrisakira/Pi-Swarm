@@ -4,7 +4,7 @@ check_interval = 0
 [[runners]]
   name = "local-docker-runner"
   url = "https://akira.ngrok.dev/"
-  token = "glrt-EPcsMuacD_NthuCDV582WW86MQp0OjEKdToxCw.01.120r155gy"
+  token = "glrt-2Q2Nfb2_M9PlT1bcFAyWDm86MQp0OjEKdTozCw.01.120e8nbrv"
   executor = "docker"
 
   [runners.docker]
@@ -12,5 +12,4 @@ check_interval = 0
     image = "docker:stable"
     privileged = true
     disable_cache = false
-    volumes = ["/cache", "/var/run/docker.sock:/var/run/docker.sock"]
-glrt-T3JKQcvJPc51y4p4IH6Vt286MQp0OjEKdToxCw.01.120q2moak
+    volumes = ["/cache", "/var/run/docker.sock:/var/run/docker.sock"] 
